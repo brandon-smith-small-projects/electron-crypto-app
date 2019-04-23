@@ -2,6 +2,7 @@ const { app, BrowserWindow, Menu } = require('electron');
 const path = require('path');
 const url = require('url');
 const shell = require('electron').shell;
+const ipc = require('electron').ipcMain;
 
 // Enable live reload for all the files inside your project directory
 require('electron-reload')(__dirname);
@@ -12,8 +13,10 @@ require('electron-reload')(__dirname, {
 	electron: require(`${__dirname}/node_modules/electron`),
 });
 
+let win;
+
 function createWindow() {
-	let win = new BrowserWindow({
+	win = new BrowserWindow({
 		width: 800,
 		height: 600,
 	});
@@ -75,4 +78,8 @@ app.on('activate', () => {
 	if (win === null) {
 		createWindow();
 	}
+});
+
+ipc.on('update-notify-value', (event, arg) => {
+	win.webContents.send('targetPriceVal', arg);
 });

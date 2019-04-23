@@ -2,10 +2,12 @@ const electron = require('electron');
 const path = require('path');
 const axios = require('axios');
 const BrowserWindow = electron.remote.BrowserWindow;
+const ipc = electron.ipcRenderer;
 
 const notifyBTN = document.querySelector('#notifyBtn');
 const price = document.querySelector('h1');
 const targetPrice = document.querySelector('#targetPrice');
+let targetPriceVal;
 
 const getBTC = () => {
 	axios
@@ -17,6 +19,7 @@ const getBTC = () => {
 			price.innerHTML = '$' + cryptos.toLocaleString('en');
 		});
 };
+
 getBTC();
 setInterval(() => {
 	getBTC();
@@ -38,4 +41,9 @@ notifyBTN.addEventListener('click', e => {
 	win.on('close', () => (win = null));
 	win.loadURL(modalPath);
 	win.show();
+});
+
+ipc.on('targetPriceVal', (event, arg) => {
+	targetPriceVal = Number(arg);
+	targetPrice.innerHTML = '$' + targetPriceVal.toLocaleString('en');
 });
