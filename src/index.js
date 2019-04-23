@@ -1,8 +1,26 @@
 const electron = require('electron');
 const path = require('path');
+const axios = require('axios');
 const BrowserWindow = electron.remote.BrowserWindow;
 
 const notifyBTN = document.querySelector('#notifyBtn');
+const price = document.querySelector('h1');
+const targetPrice = document.querySelector('#targetPrice');
+
+const getBTC = () => {
+	axios
+		.get(
+			'https://min-api.cryptocompare.com/data/price?fsym=BTC&tsyms=USD&api_key=f8c43b36ef8aa99d338f0b0d246e2f8646c0680b84391f0ac229172e51b98c37',
+		)
+		.then(res => {
+			const cryptos = res.data.USD;
+			price.innerHTML = '$' + cryptos.toLocaleString('en');
+		});
+};
+getBTC();
+setInterval(() => {
+	getBTC();
+}, 30000);
 
 currentWindow = electron.screen.getCursorScreenPoint();
 
