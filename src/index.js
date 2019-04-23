@@ -9,6 +9,12 @@ const price = document.querySelector('h1');
 const targetPrice = document.querySelector('#targetPrice');
 let targetPriceVal;
 
+const notification = {
+	title: 'BTC Alert',
+	body: 'BTC just beat your target price',
+	icon: path.join(__dirname, '../assets/images/btc.png'),
+};
+
 const getBTC = () => {
 	axios
 		.get(
@@ -17,6 +23,13 @@ const getBTC = () => {
 		.then(res => {
 			const cryptos = res.data.USD;
 			price.innerHTML = '$' + cryptos.toLocaleString('en');
+
+			if (targetPrice.innerHTML !== '' && targetPriceVal < res.data.USD) {
+				const myNotification = new window.Notification(notification.title, {
+					body: notification.body,
+					icon: notification.icon,
+				});
+			}
 		});
 };
 
