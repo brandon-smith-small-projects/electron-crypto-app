@@ -45,6 +45,10 @@ function createWindow() {
 				},
 				{ type: 'separator' },
 				{
+					label: 'Reload',
+					role: 'forcereload',
+				},
+				{
 					label: 'Exit',
 					click() {
 						app.quit();

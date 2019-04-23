@@ -23,8 +23,14 @@ input {
 	padding: 12px;
 }
 
-#closeBTN {
+#closeBtn {
 	cursor: pointer;
 	padding: 20px;
 	text-decoration: underline;
+}
+
+html,
+body {
+	background: rgba(226, 226, 226, 0.8);
+	height: 100%;
 }
